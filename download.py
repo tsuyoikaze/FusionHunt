@@ -1,5 +1,5 @@
 import os
-f = open("download_srr_series.txt)
+f = open("download_srr_series.txt")
 files = map(str.strip, f.readlines())
 for file in files:
     os.system("prefetch -v %s", file)
