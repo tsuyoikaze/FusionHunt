@@ -1,0 +1,272 @@
+
+Last updated on: 02/05/2012
+R-SAP (RNA-Seq analysis pipeline) user manual.
+
+Contents:
+1.	License
+2.	Obtaining R-SAP
+3.	Requirements
+4.	Installation
+4.1	Unpacking
+4.2	Directory structure
+5.	Input files
+6.	Running R-SAP
+6.1	Command line
+6.2	Running methods
+7.	Analysis parameters
+8.	Output files
+8.1	Output files description
+8.2	Output files headers
+
+
+
+1. License 
+R-SAP (RNA-Seq analysis pipeline) is an automated computational tool to
+detect novel transcriptional events and to estimate RNA expression levels
+using reference genome alignments of RNA-Seq reads. 
+Copyright © 2012 Georgia Institute of Technology.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/.
+
+
+AUTHOR:
+Vinay Kumar Mittal 
+
+Contact: vinaykmittal@gatech.edu
+www.mcdonaldlab.biology.gatech.edu
+
+Reference: 
+R-SAP: a multi-threading computational pipeline for the characterization of high-throughput RNA-sequencing data. Mittal VK, McDonald JF. Nucleic Acid Reseaech. Jan. 28 2012 doi: 10.1093/nar/gks047
+
+
+
+2. Obtaining R?SAP 
+R?SAP is an open source program that can be freely downloaded from:
+www.mcdonaldlab.biology.gatech.edu/r?sap.htm
+
+3. Requirements 
+R?SAP has been developed completely using Active state Perl 5.8.0. In order to run R?SAP, prior installation of Perl (5.8 or higher version) is required. Currently available version of Perl is 5.12.4. Active state Perl can be obtained from http://www.activestate.com/activeperl/downloads. Although R?SAP has been developed on Unix systems, it is compatible with all Unix and MS Windows based operating systems. 
+
+
+4. Installation 
+R?SAP is run directly using source files so it doesn’t need to be configured with system. Simple unpacking of the downloaded files will be sufficient in order to complete the installation step. 
+4.1 Unpacking: 
+For Unix: tar –zxf r?sap?v?1.1.tar.gz or unzip r?sap?v1.1.zip 
+For Windows based systems: r?sap?v1.1.zip can be unpacked using Winzip or Winrar utilities. 
+4.2 Directory structure 
+Unpacking of r?sap?v1.1?tar.gz or r?sap?v1.1 will result in the main program directory “r?sap?v1.1”.
+“r?sap?v1.1” will contain perl packages, modules and the main script that are required to run the
+program. Directory structure and package distribution is as follows:
+
+R?SAP: Wrapper/control perl script that is executed to start the program.
+argument_parsing: Package that contains modules for initial processing and verification of user
+supplied arguments and parameters of R?SAP.
+file_parser: Package that contains perl modules to parse the user input file and their file format check.
+Begin: This package imports all the required perl modules and initializes variables for the program.
+Control: This package contains modules that call analysis and characterization modules, create threads
+and merge output files from different threads at the end of the program.
+
+divide_data: Modules in this package are used to divide the input data into smaller sub?sets when
+multiple threads are created.
+compartment_A: Contains modules that are required to perform “alignment?screening” step in the
+pipeline.
+compartment_B: Contains modules that detect chimeric transcripts from “low?scoring” alignment reads.
+compartment_C: Packages all the modules that perform the “characterization” of the “high?scoring”
+alignment reads with the known reference transcripts.
+compartment_D: Characterizes and annotates the detected chimeric transcripts with the known
+reference transcripts.
+compartment_E: Estimates RNA expression (RPKM) of reference transcripts as well as known introns in
+order to detect new “intronic?exons”. It also updates stats on various characterization category as well
+as detected reference transcripts.
+Stats: Generates data analysis report for the pipeline run.
+Shared: This package contains modules with subroutines/functions that are shared between other
+analysis, characterization and control modules.
+5. Input files 
+(1.) Input alignment file: 
+
+(a.)  Psl/pslx files:
+R?SAP requires reference genome alignment of RNA?sequencing reads as input. Default alignment file formats for R?SAP are “psl” or “pslx” that can be generated using BLAT (http://users.soe.ucsc.edu/~kent/src/) 
+or SSAHA2 (http://www.sanger.ac.uk/resources/software/ssaha2/) sequence aligners. 
+“psl” and “pslx” file description can found at http://genome.ucsc.edu/FAQ/FAQformat.html#format2. 
+Generally RNA?Seq reads are aligned to each chromosome separately and then all the alignment
+files are merged into a single file. This merge file must be sorted on the RNA?Seq read Ids before
+using these files with R?Sap.
+In order to sort on Unix system, run the following command on the Unix shell:
+
+sort –k 10 –o output_file_name unsorted_alignment_file 
+For Windows systems, alignment files that can fit easily the memory (RAM) available on the system can be sorted using either TextPad (http://www.textpad.com/) or any other text editor that has option to sort. 
+(b.) GTF/BED files:
+R-SAP is also configured to accept assembled transcripts from two RNA-Seq based ab initio assemblers: 
+Cufflinks (http://cufflinks.cbcb.umd.edu/index.html) 
+and Scripture (http://www.broadinstitute.org/software/scripture/).
+Transcript assemblies from Cufflinks are generated as “GTF” (gene transfer format) while assemblies from Scripture are generated as “BED” (browser extensible data) format. GTF and BED file format descriptions can be found at http://genome.ucsc.edu/FAQ/FAQformat.html#format1 and 
+http://genome.ucsc.edu/FAQ/FAQformat.html#format4 respectively.
+
+Since the default input alignment file format in R-SAP is assumed to be psl or pslx, user need to explicitly specify if GTF or BED file formats are supplied. Please see section 6.1 for specifying input file formats.
+Note: Assembled transcript files do not contain read level information hence transcript expression will not be estimated by R-SAP if input alignment file is provided in GTF or BED format. Since, Cufflinks and Scripture inherently estimate abundances of transcripts, expression values reported by the assembler can be used instead of estimating using R-SAP.
+
+
+(2.) Reference transcript file: 
+The second required input file for running R?SAP is reference transcript coordinate file. This file (hence genomic coordinates of reference transcripts) should be corresponding to the reference genome assembly that was used for the reference genome alignment of the RNA?Seq reads to be analyzed. Reference transcript file contains reference genome coordinates of the exons of the known (or annotated) RNAs for the reference genome. Reference transcript files for majority of the well annotated genomes can be obtained from: 
+http://genome.ucsc.edu/cgi?bin/hgTables?command=start
+http://hgdownload.cse.ucsc.edu/downloads.html
+http://useast.ensembl.org/info/data/ftp/index.html
+
+Currently R?SAP accepts reference transcript annotation files in three formats: 
+ a.	“UCSC table browser” format: Default format when downloading from UCSC table browser 
+(also known as “All fields from selected tables” format). 
+ b.	BED (browser extensible data) 
+ c.	GTF (gene transfer format). 
+
+Sample reference transcript files in different acceptable formats have been provided in the program directory “/r?sap?v1.1/extras/”. More information on file formats can be found at: 
+http://genome.ucsc.edu/FAQ/FAQformat.html 
+By default, R?SAP assumes that the use supplied reference transcript annotation file is in “Standard table browser” format. If other formats (BED or GTF) are used, they must be specified (using ??rf parameter) while running the pipeline (command line examples below). 
+Note: Before using a reference transcript annotation file for R?SAP, please make sure that the
+chromosome names are same between the reference transcript file and the RNA?Seq alignment file.
+Also, these file must be a tab separated files (fields are separated with tabs).
+If there are any headers lines in the input file, they must start with hash (#) symbol.
+
+
+
+6. Running R?SAP 
+
+6.1 Command line for R-SAP:
+R?SAP is a stand?alone command line program that is run either using shell (on Unix system) or command prompt/DOS (on Windows system). 
+USAGE:
+perl R-SAP –h Print help
+perl R-SAP –v Print version
+
+
+Command line:
+
+perl R-SAP --in1 <file_name> --in2 <file_name> --outDir <dir_name> <options> 
+      Where:
+in1Reference genome alignment file (sorted on RNA?Seq IDs) of the RNA?Seq reads in psl or pslx format.in2Reference transcript annotation file (UCSC table browser, BED or GTF format).outDirA directory where all the output files will be written. To create a new directory on Unix based systems: mkdir <new_directory_name><options>stMatchMatch the genomic strand between reference transcript and the read alignment while finding best fitting reference transcript for the high-scoring reads in the characterization step. It can be T (true) or F (false). The default value is F.afInput alignment file format. Acceptable file formats are: psl, pslx, GTF and BED. Psl and pslx are default file formats for R-SAP. This argument must be specified when alignment files are in GTF or BED format. (See command line examples below).rfReference file format. R?SAP accepts files in “Standard table browser” format (default format), BED and GTF formats. This argument must be specified only when BED or GTF files are used. (See command line examples below).outTagA prefix that will be attached prior to the all output file names. It is useful to provide if user is planning to run the pipeline multiple times or on multiple samples and using the same output file. Tag should be unique for each run or sample to avoid output file mix?up or overwriting. If not provided, no file tag will be attached to the output file names.tNumNumber of parallel threads that user wants to create. More number of threads will speed up the analysis. Usually number of threads corresponds to the number of CPUs available on the system or to the user. By default, only one thread will be created.
+6.2 Running methods:
+
+1. The simplest way to run R?SAP is to run it from the program directory (/r?sap?v1.1/) itself.  After unpacking the program, enter the directory /r?sap?v1.1/ (on Unix shell or Windows command prompt/DOS) as: 
+
+       cd ~/some_path/r-sap-v1.1
+      and then run R-SAP as described in section 6.1.
+      
+      
+2. Another way to run R?SAP is by setting a perl library path for R?SAP. 
+Unix systems: 
+User may not want to run the program always from the program directory, so a default path to the r?sap program directory can be set.
+For Unix based systems, add following commands to the .bashrc, .bash_profile or .profile
+(or similar files for your operating system):
+
+Add r?sap?v1.1 modules to the perl’s library path as:
+PERL5LIB=$PERL5LIB:~/some_path/r-sap-v1.1
+export PERL5LIB
+
+Create an alias to the R?SAP script present in the program directory r?sap?v1.1 as:
+alias r-sap='perl ~/some_path/r-sap-v1./R-SAP'
+
+Now r?sap is ready to run on your Unix system. 
+
+Windows systems: 
+Copy all the contents (except file “R?SAP”) from the program directory r?sap?v1.1 to the perl library of your system (e.g. C:\Perl\lib).
+
+Now place the file “R?SAP” in a directory (e.g. C:\User\my_programs) where you want it to run from. 
+In order to run, open the command prompt/DOS and type:
+perl C:\User\my_programs\R-SAP  …..<file names and other arguments as described in section 6.1> 
+
+
+
+7. Analysis parameters 
+R?SAP is incorporated with various analysis parameters that can be adjusted in order to change the pipeline stringency as well according to the nature of the data. These parameters are optional while running the program and assumes a default value. 
+IdentityCutoff: Minimum percent identity to call an alignment hit as high?scoring (default value is 95%). This cutoff is also the minimum identity required by each alignment pair in the chimeric transcript detection step. 
+
+CovCutoff: Minimum alignment query coverage to call an alignment as high?scoring (default value is 90%). 
+
+DeletionCutoff: Minimum number of skipped exonic bases from the reference genome due to the gapped alignment of query read before the read is characterized as exon?deletion (default value is 10 bps). 
+
+ExonExtensionCutoff: Minimum number of extended bases outside the exon boundaries to characterize it as 
+internal?exon?extension (if extension is in intron) or alternativeTSS or alternativePolyadenylation (if the extension is out of the transcriptional boundaries) (default value is two bps). 
+
+
+GeneRadius: Maximum extension of the known transcript in the upstream or downstream region to include intergeninc region mapped reads in the known gene models (default value is 5000 bp). This value can be set to zero if all the intergenic mapped reads need to be characterized as gene?desert. 
+
+gapTolerance: Maximum number of bases required to be not covered in the main (top) alignment of the query read before it is designated as chimeric transcript and searched for the alignment pair (default value is 20 bp). This cutoff is also the maximum allowed query bases between the fragmented alignments of the query sequence. 
+
+LeftLeaveCutoff & RightLeaveCutoff parameters change the “gapTolerance” cutoff for the left and right end, respectively. Default values are again 20 bp. 
+
+AnnotationMode: Two possible values; “unique”, “multi”. “Unique” is the default setting that will cause the pipeline to characterize each high?scoring read to only one best fitting known transcript. If set as “multi”, reads will be characterized with all the known transcripts the read mapped to. 
+
+IntronCutoff : Maximum distance (gap/intron) allowed between the contiguous alignment blocks of a RNA?sequencing read. Read is designated as “Uncharacterized” otherwise. It is also the upper bound on the expansion in a reference transcript boundary (5’ or 3’) using the RNA?seq data. If a read detects the larger expansion, the read is designated as “Uncharacterized". Default value is 100 kb. 
+
+R?SAP command line examples: 
+perl R-SAP –in1 hg18Align.psl –in2 hg18Ensembl --af GTF GTF --rf BED --outDir my_dir--outTag test_data1 --tNum 4 –-stMatch T
+perl R-SAP –in1 hg18Align.psl –in2 hg18Ensembl --rf BED --outDir my_dir--outTag test_data1 --tNum 2 --IdentityCutoff 99 --CovCutoff 98 --AnnotationMode multi 
+
+8. Output files 
+Once the R?SAP run is finished successfully, it creates 18 output files in the specified output directory. These output files are described below and the header (description of different fields) for each output file is described in the section below. 
+8.1 Output files description: 
+Characterization files: (generated after characterizing high?scoring reads with known/annotated reference transcripts): 
+*ExonOnly.out, *ExonDeletion.out, *UTRExpansion.out, *InternalExonExtension.out, *IntronOnly.out, *MultipleAnnotations.out, *NeighboringExons.out, *GeneDesert.out, *Uncharacterized.out.
+Gene expression files:
+*RPKMExpressionValues.out: Contains expression levels of reference transcripts as RPKM (Reads per
+kilobase of exon per million mapped reads) estimated using “exon?only” reads.
+*NewIntronicExons.out: New potential exons that are present in within the previously known introns
+and detected using intronic RPKM values estimated using “intron?only” reads.
+
+Other files:
+*ChimericTranscriptAnnotation.out: Contains all the detected chimeric transcripts and their
+characterization with the known reference transcripts.
+
+*MultiHits.pslx2: Contains all the “multi?hit” reads (that mapped to multiple genomic loci with similar
+alignment score, identity and coverage).
+
+*Discarded.out: All the reads that had alignment identity and/or coverage below the cutoff values as
+well as not detected as chimeric transcripts.
+
+*TopHits.pslx2: Best possible (most likely) alignment for each reference genome mapped read.
+
+*DataDistributionReport.out: Contains statistics on alignment screening, characterization of “high?
+scoring” reads with reference transcripts, chimeric transcripts, exon?skipping, intron?retention detected
+reference transcripts. Data report is presented in various tables.
+
+*High?scoringBED.out: This file generated from the characterization of “high?scoring” reads with the
+reference transcripts and can be uploaded to the public genome browsers such as UCSC and Ensembl.
+Each characterization sub?category will be displayed as a separate track on the genome browser.
+
+*FullTranscriptMatch.out: This file is generated from the characterization of “high-scoring” reads that are also characterized as “exon-only” reads. A "Full-transcript-match" is resulted when boundaries of all the alignment blocks of a read match with the all exon boundaries of a reference transcript.
+
+
+8.2 Output file headers: 
+*ExonOnly.out char Characterization sub-category (ExonOnly)qID Read ID/name (from the input alignment file)%id % Identity in the reference genome alignmentstrandGenomic strand of the alignment.chr Alignment chromosome AlignSt Alignment start position on the chromosomeAlignEn Alignment end position on the chromosomerefID Reference transcript that read is characterized with (from the input reference transcript file)refStrand Genomic strand of the reference transcript (+ or -)refType Type of reference transcript (protein-coding/non-protein-coding)numExons Total number of reference transcript exons mapped by the characterized read exons Reference transcript exons mapped by the characterized read (counted from 5’end of the reference transcript)refRegion Reference transcript regions (5’UTR, CDS, 3’UTR for protein-coding and “non-coding” for non-protein-coding reference transcripts) mapped by the characterized read 
+
+
+*ExonDeletion.out char Characterization sub-category (ExonDeletion)qID Read ID/name (from the input alignment file)%id % Identity in the reference genome alignmentstrandGenomic strand of the alignment.chr Alignment chromosome AlignSt Alignment start position on the chromosomeAlignEn Alignment end position on the chromosomerefID Reference transcript that read is characterized with (from the input reference transcript file)refStrand Genomic strand of the reference transcript (+ or -)refType Type of reference transcript (protein-coding/non-protein-coding)delExons Reference transcript exon(s) that were detected (by the read) to have deletions. delBases Number of bases deleted in each exon (should correspond to “delExons”)numSkipExons Total number of skipped exons in the reference transcript.skippedExons Skipped exons of the reference transcript. 
+
+
+*UTRExpansion.out char Characterization sub-category (5’UTRExpansion or 3’UTRExpansion)qID Read ID/name (from the input alignment file)%id % Identity in the reference genome alignmentstrandGenomic strand of the alignment.chr Alignment chromosome AlignSt Alignment start position on the chromosomeAlignEn Alignment end position on the chromosomerefID Reference transcript that read is characterized with (from the input reference transcript file)refStrand Genomic strand of the reference transcript (+ or -)refType Type of reference transcript (protein-coding/non-protein-coding)expRegion Region in which reference transcript boundary (5’ or 3’) was detected to be expanded (will be “intergenic” always)expType Type of expansion (will be “extension” always)expBases Resulting expansion in reference transcript boundary (number of bases) 
+
+
+*InternalExonExtension.out char Characterization sub-category (InternalExonExtension)qID Read ID/name (from the input alignment file)%id % Identity in the reference genome alignmentstrandGenomic strand of the alignment.chr Alignment chromosome AlignSt Alignment start position on the chromosomeAlignEn Alignment end position on the chromosomerefID Reference transcript that read is characterized with (from the input reference transcript file)refStrand Genomic strand of the reference transcript (+ or -)refType Type of reference transcript (protein-coding/non-protein-coding)extIntrons Introns in which exons were detected to be extended. extBases Number of bases extended in each intron (should correspond to “extIntrons”)extRegion Reference transcript regions that were extended (5’UTR, 3’UTR, CDS or non-coding)numRetIntrons Total number of retained introns in the reference transcriptretIntrons Retained introns of the reference transcript 
+
+
+*IntronOnly.out char Characterization sub-category (IntronOnly)qID Read ID/name (from the input alignment file)%id % Identity in the reference genome alignmentstrandGenomic strand of the alignment.chr Alignment chromosome AlignSt Alignment start position on the chromosomeAlignEn Alignment end position on the chromosomerefID Reference transcript that read is characterized with (from the input reference transcript file)refStrand Genomic strand of the reference transcript (+ or -)refType Type of reference transcript (protein-coding/non-protein-coding)numIntrons Total number of reference transcript introns mapped by the characterized read Introns Reference transcript introns mapped by the characterized read(counted from 5’end of the reference transcript) 
+
+
+*NeighboringExon.out char Characterization sub-category (NeighborinExon)qID Read ID/name (from the input alignment file)%id % Identity in the reference genome alignmentstrandGenomic strand of the alignment.chr Alignment chromosome AlignSt Alignment start position on the chromosomeAlignEn Alignment end position on the chromosomerefID Reference transcript that read is characterized with (from the input reference transcript file)refStrand Genomic strand of the reference transcript (+ or -)refType Type of reference transcript (protein-coding/non-protein-coding)exonRegion Region (upstream or downstream) relative to the reference transcript where the read is mapped.dist Distance of the read from the reference transcript 
+
+
+
+*GeneDesert.out, *Uncharacterized.out, *MultiHits.out, *Discarded.out & *TopHits.out score BLAT score of the alignment%cov % of the read (query) length covered in the reference genome alignment%id % Identity in the reference genome alignmentmatches Number of bases that match that aren't repeatsmisMatches Number of bases that don't match repMatches Number of bases that match but are part of repeatsnCount Number of 'N' bases qNumInsert Number of inserts in queryqBaseInsert Number of bases inserted in querytNumInsert Number of inserts in targettBaseInsert Number of bases inserted in targetstrand '+' or ' qName Query sequence nameqSize Query sequence sizeqStart Alignment start position in queryqEnd Alignment end position in querytName Target sequence nametSize Target sequence sizetStart Alignment start position in targettEnd Alignment end position in targetblockCount Number of blocks in the alignment (a block contains no gaps)blockSizes Comma-separated list of sizes of each blockqStarts Comma-separated list of starting positions of each block in querytStarts Comma-separated list of starting positions of each block in targetqSeq Comma-separated list of query sequence parts aligned to reference genometSeq Comma-separated list of reference genome sequences included in the read (query) alignment.Note: These files are in psl or pslx formats with three additional fields, “score”, “%cov” and “%id”, attached at the start of each line. Last two fields, “qSeq” and “tSeq”, will be present only if input alignment file is in “pslx” format. 
+
+
+*RPKMExpressionValues.out refID Reference transcript that read is characterized with (from the input reference transcript file)chr Reference transcript chromosometxSt Genomic position of the transcription start sitetxEn Genomic position of the transcription end siterefRPKM RPKM value of the reference transcript 
+
+
+*NewIntronicExons.out refID Reference transcript that read is characterized with (from the input reference transcript file)Chr Reference transcript chromosometxSt Genomic position of the transcription start sitetxEn Genomic position of the transcription end siteinron Reference transcript intron containing potentially new exonintronRPKM RPKM value of the intron containing potentially new exonrefRPKM RPKM value of the reference transcript 
+
+
+*ChimericTranscriptAnnotation.out char Chimeric transcript characterization typeqID Read ID/name (from the input alignment file)chr_1 Alignment chromosome for chimeric transcript fragment 1 (left side fragment)region_1 Reference transcript region to which chimeric transcript fragment 1overlapsrefID_1 Reference transcript ID with which chimeric transcript fragment 1 is characterized chr_2 Alignment chromosome for chimeric transcript fragment 2 (right side fragment)region_2 Reference transcript region to which chimeric transcript fragment 2overlapsrefID_2 Reference transcript ID with which chimeric transcript fragment 2 is characterized 
+
+
+*FullTranscriptMatch.out qID Read ID/name (from the input alignment file)%id % Identity in the reference genome alignmentstrandGenomic strand of the alignment.chr Alignment chromosome AlignSt Alignment start position on the chromosomeAlignEn Alignment end position on the chromosomerefID Reference transcript that read is characterized with (from the input reference transcript file)refStrand Genomic strand of the reference transcript (+ or -)refType Type of reference transcript (protein-coding/non-protein-coding)numExons Total number of reference transcript exons mapped by the characterized read 
+

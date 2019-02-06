@@ -1,0 +1,261 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use threads;
+
+BEGIN{
+	require Begin::Indexes;
+	require shared::ArrayOperations;
+	require shared::CoordinateComparisons;
+	require shared::DeleteDataStructures;
+	require shared::FileCheckPrint;
+
+	require Begin::CreateOutputFiles;
+	require Begin::FileIndexing;
+
+	require Control::TimeModule;
+	require Control::FileIOModules;
+	require Control::MergeOutFiles;
+	require Control::RunCharacterizationModules;
+
+
+	require file_parsers::ProcessAlignmentFile;
+	require file_parsers::ProcessGeneTrackFile;
+	require file_parsers::VerifyPSLRecords;
+	require argument_parsing::ArgumentParser;
+	require Stats::StatsCollectionHashes;
+	require divide_data::DivideDataFile2;
+
+	require compartment_E::CalculateGeneExpression;
+
+	require Stats::StatsCollectionHashes;
+	require Stats::MergeStatsFromFile;
+	require Stats::GenerateReport;
+}  ## BEGIN closed
+
+
+
+
+	#### measurement parameters ####
+	my(@time1,@time2);
+	@time1 = Control::TimeModule::get_current_time();
+	################################
+
+
+
+	#### program variables ####
+	my ($dumpFlag,%scriptParameters) = argument_parser::ArgumentParser::parse_arguments();  ## getting required input files and cutoffs 
+	my $alignFile = $scriptParameters{"in1"};
+	my $geneFile = $scriptParameters{"in2"};
+	my $geneFileFormat = $scriptParameters{"rf"};
+	my $outFilePrefix = $scriptParameters{"outTag"};
+	my $threadLim = $scriptParameters{"tNum"};
+	my $outDir = $scriptParameters{"outDir"};
+	my $alignFileFormat = $scriptParameters{"af"};  ## alignment file format
+	my $alignPslFlag = 1;  ## default value
+	my $pathVar = Control::MergeOutFiles::get_path_var();  ## path variable according to the OS
+	###########################
+
+
+
+#### Initial printing arguments ####
+print "\nuser input parameters: \n";
+print "alignment file: $alignFile\n";
+print "alignment file format: ",$scriptParameters{"af"},"\n";
+print "reference transcript file: $geneFile \n";
+print "reference transcript file format: $geneFileFormat \n";
+print "strand match: ",$scriptParameters{"stMatch"},"\n";
+print "output directory: ",$outDir,"\n";
+print "output file tag: ",$scriptParameters{"outTag"},"\n";
+######################################
+
+
+	#### file permission testing ####
+	shared::FileCheckPrint::check_if_readable(($alignFile,$geneFile));  ## checking if files are readable (## change the error)
+	shared::FileCheckPrint::check_if_dir_accessible($outDir);
+	#################################
+
+
+
+	#### temporary directories ####
+	my($tempDirTag,$tempInDir,$tempOutDir);
+	$tempDirTag = Control::FileIOModules::get_temporary_dir_tag();
+	###############################
+
+
+
+	#### temporary input and output directories ####
+	$tempOutDir = Control::FileIOModules::get_temporary_output_dir($tempDirTag);
+	$tempOutDir = $outDir.$tempOutDir;
+	mkdir($tempOutDir);  ## temporay directory for output files
+	################################################
+
+
+
+	#### for inout alignment file (if gtf or bed, convert to psl or pslx) ####
+	if( ($alignFileFormat !~ m/psl/i) && ($alignFileFormat !~ m/pslx/) ){
+	my %temporaryAlignFile = Begin::CreateOutputFiles::default_align_file($tempOutDir.$pathVar);  ## temporary file containing alignment file
+	file_parsers::ProcessAlignmentFile::process_alignment_file($alignFile,$temporaryAlignFile{"alignFile"},$alignFileFormat);
+	$alignFile = $temporaryAlignFile{"alignFile"};
+	$alignPslFlag = 0;  ## alignment file format is not psl/pslx (to tell not to run some of the modules).
+	}
+	##############################################################################
+
+
+
+	#### for reference transcript file ####
+	my %temporaryGeneFile = Begin::CreateOutputFiles::default_gene_file($tempOutDir.$pathVar);  ## temporary file containing gene tracks
+	file_parsers::ProcessGeneTrackFile::process_gene_tracks($geneFile,$temporaryGeneFile{"DefaultGeneTrackFile"},$geneFileFormat);  ## converting gene track records to a default format for the program
+	$geneFile = $temporaryGeneFile{"DefaultGeneTrackFile"};
+	################################################################################
+
+
+
+	#### final output files ####
+	my @finalOutRefs;
+	my %characterizationOutFiles = Begin::CreateOutputFiles::characterization_out_file($outDir.$outFilePrefix);
+	push(@finalOutRefs,\%characterizationOutFiles);
+	my %bedOutFilesHash = Begin::CreateOutputFiles::BED_out_file($outDir.$outFilePrefix);
+	############################
+
+
+
+	#### required indexes ####
+	my %pslxIndexes = Begin::Indexes::pslx_indx();
+	my %pslx2Indexes = Begin::Indexes::pslx2_indx();
+	my %knGnIndexes = Begin::Indexes::ucsc_known_gene_indexes();
+	my %chimerIndexes = Begin::Indexes::chimer_indx();
+	##########################
+	
+
+	if(!(file_parsers::VerifyPSLRecords::verify_psl_records($alignFile,1000))){  ## checking first 1000 lines of the input file for the format check
+	die "\n provided input file $alignFile is not a psl or pslx format file \n";  ## termination message
+	}
+	
+
+	#### dividing input data file ####
+	my(@chunkSt,@chunkEn);  ## file pointer start and ends for input datafile parts
+	divide_data::DivideDataFile2::divide_data_file2($alignFile,\%pslxIndexes,$threadLim,\@chunkSt,\@chunkEn);
+	my($totalReads,$tempTotalReads);
+	$totalReads = 0;
+
+	#### required hash indexes ####
+	my @geneFileArray = Begin::FileIndexing::read_in_gene_file($geneFile);
+	##my %geneFileIndexes = Begin::FileIndexing::make_gene_track_index($knGnIndexes{"chr"},$geneFile);
+	my %geneFileIndexes = Begin::FileIndexing::make_gene_track_index2($knGnIndexes{"chr"},\@geneFileArray);
+	###############################
+
+
+my ($i,$t1,@tIDs);
+
+print "\nnumber of threads created: ",scalar(@chunkSt),"\n";
+print "\ntemporary output directry:\n\t$tempOutDir \n";
+print "\ninitializing analysis modules \n";
+
+
+	for($i = 0;$i<scalar(@chunkSt);++$i){
+	## run modules in thread ##
+	$t1 = threads->create(\&Control::RunCharacterizationModules::characterize_alignment_clusters,($alignFile,$alignPslFlag,$chunkSt[$i],$chunkEn[$i],\@geneFileArray,\%scriptParameters,
+		\%pslxIndexes,\%pslx2Indexes,\%knGnIndexes,\%chimerIndexes,\%geneFileIndexes,$tempOutDir.$pathVar.($i+1)));
+	push(@tIDs,$t1);
+	## hashes can be shared
+	}	
+
+	for($i = 0;$i<scalar(@chunkSt);++$i){
+	$tempTotalReads = $tIDs[$i]->join();  ## finishing threads
+		if($tempTotalReads){
+		$totalReads += $tempTotalReads;
+		}
+	}  ## all threads are joined now.
+
+print "\ntotal number of mapped reads: $totalReads\n";
+
+	if($i >  1){
+	print "\nmerging output files from $i threads \n";
+	}
+	
+
+
+
+	##print "\noutDir: $outDir\n";
+	##print "outTag: $outFilePrefix\n";
+	##print "tempDir: $tempOutDir\n";
+
+Control::MergeOutFiles::stream_out_temp_dir($outDir, $outFilePrefix, $tempOutDir, scalar(@chunkSt),@finalOutRefs);
+
+#### statistics hashes ####
+my %alignmentClassStats = Stats::StatsCollectionHashes::alignment_class_hash();  ## hash to store counts of score baesd alignments classes
+my %readAnnotationStats = Stats::StatsCollectionHashes::annotation_class_hash();  ## hash to store counts of each type of read annotation
+
+my %geneCharStats = Stats::StatsCollectionHashes::annotation_class_hash();  ## hash to store number of genes annotated to different characterization classes
+my %geneDistHash = Stats::StatsCollectionHashes::gene_mapping_distribution_hash();  ## hash to store number of genes expressed in the given sample
+
+my %chimerReadStats = Stats::StatsCollectionHashes::chimer_distribution_hash();  ## to store chimeric read counts
+my %chimerGeneStats = Stats::StatsCollectionHashes::chimer_distribution_hash();  ## to store chimeric gene counts
+my %exonsOnlyStats = Stats::StatsCollectionHashes::exons_only_read_hash();  ## to store read mapping regions stats for exons only characteristics
+
+%geneCharStats = (%geneCharStats,%chimerGeneStats);  ## completing gene charasteristics hash (splicing and chimers)
+
+	my %exonSkippingStats = Stats::StatsCollectionHashes::exon_skip_hash();  ## hash to store number of skipped exons and number of corresponding genes
+	my %retainedIntronStats = Stats::StatsCollectionHashes::retained_intron_hash();  ## hash to store number of retained introns and the number of corresponding genes
+	my %splicedGenicRegionsStats = Stats::StatsCollectionHashes::spliced_genic_regions_hash();  ## hash to sotre number of genes having different genic regions spliced
+
+########################################################
+
+	if($alignPslFlag){  ## if alignment file is in psl or pslx format
+	compartment_E::CalculateGeneExpression::calculate_expression($totalReads,$geneFile,\%characterizationOutFiles,
+		\%knGnIndexes,\%geneCharStats,\%geneDistHash,\%exonSkippingStats,\%retainedIntronStats,\%splicedGenicRegionsStats);
+	}  ## if(alignPslFlag) ends
+
+
+## merging stats from different threads/modules ##
+Stats::MergeStatsFromFile::merge_hashes_from_file(\%alignmentClassStats,$finalOutRefs[0]->{"AlignmentStats"});  ## merging stats from hashes and replacing the file
+Stats::MergeStatsFromFile::merge_hashes_from_file(\%readAnnotationStats,$finalOutRefs[0]->{"GeneAnnotationStats"});  ## mergin stats from hashes and replacing the file
+Stats::MergeStatsFromFile::merge_hashes_from_file(\%chimerReadStats,$finalOutRefs[0]->{"GeneAnnotationStats"});  ## mergin stats from hashes and replacing the file
+Stats::MergeStatsFromFile::merge_hashes_from_file(\%exonsOnlyStats,$finalOutRefs[0]->{"GeneAnnotationStats"});  ## mergin stats from hashes and replacing the file
+##################################################
+
+#### creating BED output files ####
+Control::MergeOutFiles::merge_create_bed_files($outDir, $outFilePrefix, $tempOutDir, scalar(@chunkSt),\%bedOutFilesHash,$characterizationOutFiles{"BEDOutFile"});
+####################################
+
+
+print "\ngenerating data analysis report \n";
+
+Stats::GenerateReport::generate_report($characterizationOutFiles{"DataSheet"},$totalReads,\%alignmentClassStats,\%readAnnotationStats,\%geneCharStats,
+	\%chimerReadStats,\%geneDistHash,\%exonsOnlyStats,\%exonSkippingStats,\%retainedIntronStats,\%splicedGenicRegionsStats);
+
+
+#### removing trmporary files and directories ####
+print "\nremoving temporary directories and files \n";
+
+my @tempDirFiles;
+
+opendir DIROUT,$tempOutDir;
+@tempDirFiles = readdir(DIROUT);
+closedir(DIROUT);
+
+	for($i = 0;$i<scalar(@tempDirFiles);++$i){  ## emptying the temporary directories
+	unlink($tempOutDir."/".$tempDirFiles[$i]);
+	}
+
+	if(!(rmdir($tempOutDir))){  ## deleting the directory
+	print "\n could not remove the directory $tempOutDir, please remove manually \n";
+	}
+unlink($finalOutRefs[0]->{"ExpressedGeneInfo"});
+unlink($finalOutRefs[0]->{"AlignmentStats"});
+unlink($finalOutRefs[0]->{"GeneAnnotationStats"});
+
+
+
+@time2 = Control::TimeModule::get_current_time();
+
+print "\n duration for run: ",Control::TimeModule::time_duration(\@time1,\@time2)," Seconds\n";
+
+END{
+	##
+	##
+}
+
+
