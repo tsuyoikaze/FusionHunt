@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 # This script adds the required modules into the PSC system
 # This is not required for final submission. Only for PSC
