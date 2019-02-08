@@ -1,4 +1,4 @@
-# 03-713 Bioinformatics Data Integration Practicum Project
+# 03-713 Bioinformatics Data Integration Practicum Project - Team 2
 
 ## Description
 A pipeline that finds fusion genes base on *De novo transcriptome assembly* with benchmark functionality to compare results with existing software: [GFusion](https://github.com/xiaofengsong/GFusion) for refined and efficient fusion gene detection. 
