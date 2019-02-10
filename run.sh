@@ -11,7 +11,7 @@
 # ----------------------------------------------------------
 GENOME_FILE=$1
 FASTA_FILE=$2
-echo "Hello my dear teammates in 03713! You are running tandem finder -- > GMAP, using genome file: $GENOME_FILE, fasta file: $FASTA_FILE"
+echo "Using genome file: $GENOME_FILE, fasta file: $FASTA_FILE"
 printf "\n\nLet's run the tests --------------------------------------\n\n"
 source ./project/src/load_module.sh
 
