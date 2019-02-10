@@ -19,4 +19,12 @@ alias trf="/pylon5/mc5frap/siweixu/project/lib/trf-v4.09/trf"
 module load trinity/2.8.4
 module load tophat/2.1.1
 module load bowtie/1.1.2
-module load samtools/0.1.19
+module load bowtie2/2.3.4.1
+module load samtools/1.3.1
+module load jellyfish2/2.2.6
+module load salmon/0.9.1
+module load gcc/8.2.0
+
+# add variables
+export TRIMMOMATIC_DIR=/opt/packages/trinity/2.8.4/trinity-plugins/Trimmomatic/
+
