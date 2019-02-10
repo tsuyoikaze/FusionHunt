@@ -5,7 +5,7 @@
 
 # Manually add Bioperl to perl library and ActivePerl
 export PATH=/pylon5/mc5frap/siweixu/project/lib/ActivePerl-5.26/bin:$PATH
-export PERL5LIB=/home/siweixu/project/lib/r-sap-v1.1
+export PERL5LIB=/pylon5/mc5frap/siweixu/project/lib/r-sap-v1.1
 
 # Create alias for softwares
 alias GFusion="perl /pylon5/mc5frap/siweixu/project/lib/GFusion/GFusion.pl"
