@@ -11,18 +11,23 @@
 # ----------------------------------------------------------
 GENOME_FILE=$1
 FASTA_FILE=$2
-echo "Using genome file: $GENOME_FILE, fasta file: $FASTA_FILE"
+printf "\n\nUsing genome file: $GENOME_FILE, fasta file: $FASTA_FILE\n\n"
 printf "\n\nLet's run the tests --------------------------------------\n\n"
 source ./project/src/load_module.sh
 
 trf $FASTA_FILE 2 7 7 80 10 50 500 -f -d -m
+rm *.html
+rm *.dat
 
 printf "\n\nTandem Repeat Find for $FASTA_FILE Complete.\n\n"
 
 EXTENSION=".2.7.7.80.10.50.500.mask"
 FASTA_FILE="$FASTA_FILE$EXTENSION"
-# RepeatMasker -pa 10000 -q -a $FASTA_FILE
-# echo "Interspersed Repeat Find for $FASTA_FILE Complete."
+RepeatMasker -pa 10000 -q -a $FASTA_FILE
+printf "\n\nInterspersed Repeat Find for $FASTA_FILE Complete.\n\n"
+rm -r *RM_*
+
 
 gmap -g $GENOME_FILE -f 1 $FASTA_FILE > result.psl
+rm *.mask
 printf "\n\nGMAP finishes. The result is in result.psl.\n\n"
