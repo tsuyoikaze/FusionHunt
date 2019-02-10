@@ -24,7 +24,7 @@ As this is a pipeline written as pure shell script, there is no need to configur
 * Trinity is accessible via `Trinity` command
 * Tophat is accessible via `tophat` command
 * Bowtie is accessible via `bowtie` command
-* Samtools is accessible via `Samtools` command
+* Samtools is accessible via `samtools` command
 * RepeatMasker is accessible via `RepeatMasker` command and is configurated correctly to link with Tandem Repeat Finder and RMBlast
 * ActivePerl with BioPerl module installed is accessible via `perl` command. (You may need to add ActivePerl to your `PATH` in order to do that)
 * R-SAP is accessible via `R-SAP` command
