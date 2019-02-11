@@ -9,6 +9,16 @@ To learn more about those three software, check the links below:
 [RepeatMasker](http://www.repeatmasker.org/)   
 [GMAP](http://research-pub.gene.com/gmap/)    
 
+
+## Usage
+First, load modules using the following command: (in your terminal)  
+`source project/src/load_module.sh`  
+
+Second, run this file in the format:  
+`source YOUR_DIR_TO_THIS_FILE/trf_rm_gmap.sh YOUR_DIR_TO_GENOME/GENOME_FILE YOUR_DIR_TO_FASTA/FASTA_FILE`  
+
 The result would be in `result.psl`.  
-To test the program, simply run:   
+
+To test the program with sample data, simply run:   
 `source trf_rm_gmap genome.fasta test.fasta` in this directory.
+
