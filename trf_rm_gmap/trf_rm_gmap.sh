@@ -27,6 +27,7 @@ printf "\n\nTandem Repeat Find for $FASTA_FILE Complete.\n\n"
 # Repeat Masker
 printf "\n\n----------------Repeat Masker starts---------------\n\n"
 EXTENSION=".2.7.7.80.10.50.500.mask"
+FASTA_FILE=$(basename "$FASTA_FILE")
 FASTA_FILE="$FASTA_FILE$EXTENSION"
 RepeatMasker -pa 10000 -q -a $FASTA_FILE
 rm -r *RM_*
@@ -42,6 +43,6 @@ printf "\n\nInterspersed Repeat Find (Repeat Masker) for $FASTA_FILE Complete.\n
 # GMAP
 printf "\n\n----------------GMAP starts---------------\n\n"
 FASTA_FILE="$FASTA_FILE.masked"
-gmap -g $GENOME_FILE -f 1 $FASTA_FILE > result.psl
+gmap -g $GENOME_FILE -f 1 $FASTA_FILE > project/trf_rm_gmap/result.psl
 rm *.masked
 printf "\n\nGMAP finishes. The result is in result.psl.\n\n"
