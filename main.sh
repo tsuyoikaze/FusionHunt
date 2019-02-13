@@ -5,6 +5,7 @@
 
 # Default general parameters
 DEF_CPU=`grep -c ^processor /proc/cpuinfo`
+DEF_CPU=`expr $DEF_CPU - 2`
 DEF_MEMORY=`awk '/MemTotal/ {print $2}' /proc/meminfo`
 DEF_MEMORY=`expr $DEF_MEMORY / 1024 / 1024 / 2`
 DEF_MEMORY+="G"
@@ -85,12 +86,12 @@ if [ $HELP == true ]; then
   exit 1
 fi
 
-if [ $LEFT == "/dev/null" ] || [ $RIGHT == "/dev/null" ]; then
+if [ $LEFT == "/dev/null" ] || [ $RIGHT == "/dev/null" ] || [ $GENOME == "/dev/null" ]; then
   echo "Invalid arguments!
 
 "
   echo "$HELP_TEXT"
-  exit 1
+  exit 127
 fi
 
 # Step 1: Run Trinity with Trimmomatic
