@@ -104,8 +104,9 @@ $TRINITY_COMMAND
 
 # Step 2: Run GMAP and TRF/Repeat Masker
 echo "Step 2: Run GMAP and Tandem Repeat Finder with RepeatMasker"
-$DIR/trf_rm_gmap/trf_rm_gmap.sh "$DEF_OUTPUT_DIR/trinity.Trinity.fasta" "$GENOME"
+source "$DIR/trf_rm_gmap/trf_rm_gmap.sh" "$DEF_OUTPUT_DIR/trinity.Trinity.fasta" "$GENOME"
 mv "result.psl" "$DEF_OUTPUT_DIR/repeat.psl"
 
 # Step 3: Run R-SAP and Bowtie
-# TODO to be done later
+echo "Step 3: Run R-SAP and Bowtie"
+source "$DIR/rsap.sh" "$DEF_OUTPUT_DIR/result.psl" "$COORD" "$DEF_OUTPUT_DIR" $CPU
