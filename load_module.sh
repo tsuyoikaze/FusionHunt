@@ -26,5 +26,5 @@ module load salmon/0.9.1
 module load gcc/8.2.0
 
 # add variables
-export TRIMMOMATIC_DIR=/opt/packages/trinity/2.8.4/trinity-plugins/Trimmomatic/
+export TRIMMOMATIC_DIR=/opt/packages/trinity/2.8.4/trinity-plugins/Trimmomatic
 
