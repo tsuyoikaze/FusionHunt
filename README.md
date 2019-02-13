@@ -1,9 +1,11 @@
-# 03-713 Bioinformatics Data Integration Practicum Project - Team 2
+# Bioinformatics Data Integration Practicum Project - Team 2
 
 ## Description
+
 A pipeline that finds fusion genes base on *De novo transcriptome assembly* with benchmark functionality to compare results with existing software: [GFusion](https://github.com/xiaofengsong/GFusion) for refined and efficient fusion gene detection. 
 
 ## Prerequisites
+
 * Linux environment with bash
 * Trinity v2.8.4 or higher with trimmomatic embedded
 * Tophat v2.1.1 or higher
@@ -19,6 +21,7 @@ A pipeline that finds fusion genes base on *De novo transcriptome assembly* with
 * GFusion v1.0
 
 ## Configuration
+
 As this is a pipeline written as pure shell script, there is no need to configurate the software itself. However, please make sure that the following command works:
 
 * Trinity is accessible via `Trinity` command
@@ -61,9 +64,12 @@ As this is a pipeline written as pure shell script, there is no need to configur
                                   adapters/TruSeq3-PE.fa:2:30:12\")
 ```
 
-## Known bugs
+## Known bugs and issues
+
+There is currently no known bugs at this point. However, should there be any issues please submit it to the issues page. 
 
 ## The group
+
 * **Program Manager**: Sarah Hsu
 * **Technical Lead**: Siwei Xu
 * **Lead Technical Writer**: Martin Ma
