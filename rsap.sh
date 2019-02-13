@@ -13,7 +13,7 @@ if [ ${file: -3} == ".gz" ]; then
   FILENAME="${2/.gz/$EMPTY_STR}"
 fi
 
-R-SAP --in1 $1 --in2 $FILENAME --outDir "$3/rsap_files" --rf GTF --tNum 4
+R-SAP --in1 $1 --in2 $FILENAME --outDir "$3/rsap_files" --rf GTF --tNum "$4"
 
 if [ $FLAG == true ]; then
   echo "Re-zipping GZIP file..."
