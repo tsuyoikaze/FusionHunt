@@ -30,8 +30,34 @@ As this is a pipeline written as pure shell script, there is no need to configur
 * R-SAP is accessible via `R-SAP` command
 * GMAP is accessible via `gmap` command
 * GFusion is accessible via `GFusion` command. (Since the program itself is a perl script, you may need to add `alias GFusion="perl /path/to/GFusion.pl"`)
+* Trimmomatic installation directory is accessible via the `$TRIMMOMATIC_DIR` environment variable
 
 ## Usage
+```
+Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]
+  
+  Example:
+    ./main.sh -l left.fq -r right.fq --cpu 10 --max-memory 10G
+  
+  Required:
+    -l|--left <left_seq>:         The left sequence
+    -r|--right <right_seq>:       The right sequence
+    -g|--genome <genome_seq>:     The reference genome sequence
+
+  Optional:
+    -h|--help:                    Show the help information for this pipeline
+    -v|--version:                 Show the version information for this pipeline
+    -o|--output-dir <output_dir>: The output directory (default is output/)
+    --cpu <number_of_cores>:      The number of CPU cores to work (default is
+                                  total number of cores minus 2)
+    --max-memory <max_memory>:    The max number of memory to be used (default
+                                  is half of the total memory)
+  
+  Subroutine-specific Optional Parameters:
+    --trimmomatic-param <param>:  Adapters and specifications for trimmomatic
+                                  to perform automatic quality trim (default
+                                  is \"ILLUMINACLIP:\$TRIMMOMATIC_DIR/
+                                  adapters/TruSeq3-PE.fa:2:30:12\")
 
 ## Known bugs
 
@@ -41,3 +67,5 @@ As this is a pipeline written as pure shell script, there is no need to configur
 * **Lead Technical Writer**: Martin Ma
 * **Q&A Lead**: Juntao Chen
 * **Communications Lead**: Saina Mahera
+
+```

@@ -43,6 +43,6 @@ printf "\n\nInterspersed Repeat Find (Repeat Masker) for $FASTA_FILE Complete.\n
 # GMAP
 printf "\n\n----------------GMAP starts---------------\n\n"
 FASTA_FILE="$FASTA_FILE.masked"
-gmap -g $GENOME_FILE -f 1 $FASTA_FILE > project/trf_rm_gmap/result.psl
+gmap -g $GENOME_FILE -f 1 $FASTA_FILE > "$3/result.psl"
 rm *.masked
 printf "\n\nGMAP finishes. The result is in result.psl.\n\n"
