@@ -10,7 +10,7 @@ A pipeline that finds fusion genes base on *De novo transcriptome assembly* with
 * Trinity v2.8.4 or higher with trimmomatic embedded
 * Tophat v2.1.1 or higher
 * Bowtie v1.1.2
-* Bowtie2 v2.3.4.1
+* Bowtie2 v2.2.7
 * Samtools v1.3.1
 * Jellyfish v2.2.6 or higher
 * Salmon v0.9.1
