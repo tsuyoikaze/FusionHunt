@@ -63,7 +63,7 @@ As this is a pipeline written as pure shell script, there is no need to configur
   Subroutine-specific Optional Parameters:
     --trimmomatic-param <param>:  Adapters and specifications for trimmomatic
                                   to perform automatic quality trim (default
-                                  is \"ILLUMINACLIP:\$TRIMMOMATIC_DIR/
+                                  is "ILLUMINACLIP:$TRIMMOMATIC_DIR/
                                   adapters/TruSeq3-PE.fa:2:30:12\")
 ```
 
