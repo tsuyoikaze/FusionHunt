@@ -34,7 +34,7 @@ As this is a pipeline written as pure shell script, there is no need to configur
 
 ## Usage
 ```
-Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]
+./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]
   
   Example:
     ./main.sh -l left.fq -r right.fq --cpu 10 --max-memory 10G
@@ -58,6 +58,7 @@ Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome
                                   to perform automatic quality trim (default
                                   is \"ILLUMINACLIP:\$TRIMMOMATIC_DIR/
                                   adapters/TruSeq3-PE.fa:2:30:12\")
+```
 
 ## Known bugs
 
@@ -68,4 +69,3 @@ Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome
 * **Q&A Lead**: Juntao Chen
 * **Communications Lead**: Saina Mahera
 
-```
