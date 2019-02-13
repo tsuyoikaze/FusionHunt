@@ -49,6 +49,7 @@ As this is a pipeline written as pure shell script, there is no need to configur
     -r|--right <right_seq>:       The right sequence
     -g|--genome <genome_seq>:     The reference genome sequence
     -c|--coord <ref_coord>:       The reference transcript coordinate file in GTF format 
+
   Optional:
     -h|--help:                    Show the help information for this pipeline
     -v|--version:                 Show the version information for this pipeline
