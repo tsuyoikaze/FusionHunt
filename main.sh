@@ -32,7 +32,8 @@ HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--gen
     -l|--left <left_seq>:         The left sequence
     -r|--right <right_seq>:       The right sequence
     -g|--genome <genome_seq>:     The reference genome sequence
-    -c|--coord <ref_coord>:       The reference transcript coordinate file in GTF format 
+    -c|--coord <ref_coord>:       The reference transcript coordinate file in 
+                                  GTF format 
 
   Optional:
     -h|--help:                    Show the help information for this pipeline
