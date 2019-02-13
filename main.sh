@@ -18,19 +18,21 @@ DEF_TRIMMOMATIC_PARAM="ILLUMINACLIP:$TRIMMOMATIC_DIR/adapters/TruSeq3-PE.fa:2:30
 LEFT="/dev/null"
 RIGHT="/dev/null"
 GENOME="/dev/null"
+COORD="/dev/null"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # String literals
 VERSION_TEXT="Version: 1.0.0"
-HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]
+HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]
   
   Example:
-    ./main.sh -l left.fq -r right.fq --cpu 10 --max-memory 10G
+    ./main.sh -l left.fq -r right.fq -g genome.fasta -c coord.gtf --cpu 8 --max-memory 10G
   
   Required:
     -l|--left <left_seq>:         The left sequence
     -r|--right <right_seq>:       The right sequence
     -g|--genome <genome_seq>:     The reference genome sequence
+    -c|--coord <ref_coord>:       The reference transcript coordinate file in GTF format 
 
   Optional:
     -h|--help:                    Show the help information for this pipeline
@@ -49,7 +51,7 @@ HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--gen
 "
 
 # Parse options
-OPTS=`getopt -o vhl:r:g:o: --long version,help,left:,right:,genome:,output-dir:,cpu:,max-memory:,trimmomatic-param: -n 'parse-options' -- "$@"`
+OPTS=`getopt -o vhl:r:g:c:o: --long version,help,left:,right:,genome:,coord:,output-dir:,cpu:,max-memory:,trimmomatic-param: -n 'parse-options' -- "$@"`
 
 if [ $? != 0 ] ; then echo "Failed parsing options." >&2 ; exit 1 ; fi
 
@@ -65,6 +67,7 @@ while true; do
     -l | --left ) LEFT="$2"; shift; shift ;;
     -r | --right ) RIGHT="$2"; shift; shift ;;
     -g | --genome ) GENOME="$2"; shift; shift ;;
+    -c | --coord ) COORD="$2"; shift; shift ;;
     -o | --output-dir ) DEF_OUTPUT_DIR="$2"; shift; shift ;;
     --cpu ) DEF_CPU="$2"; shift; shift ;;
     --max-memory ) DEF_MEMORY="$2"; shift; shift ;;
@@ -86,7 +89,7 @@ if [ $HELP == true ]; then
   exit 1
 fi
 
-if [ $LEFT == "/dev/null" ] || [ $RIGHT == "/dev/null" ] || [ $GENOME == "/dev/null" ]; then
+if [ $LEFT == "/dev/null" ] || [ $RIGHT == "/dev/null" ] || [ $GENOME == "/dev/null" ] || [ $COORD == "/dev/null" ]; then
   echo "Invalid arguments!
 
 "
