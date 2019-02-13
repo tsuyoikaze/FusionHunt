@@ -37,17 +37,18 @@ As this is a pipeline written as pure shell script, there is no need to configur
 
 ## Usage
 
-`./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]`
+`Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]`
 
 ```  
+  
   Example:
-    ./main.sh -l left.fq -r right.fq --cpu 10 --max-memory 10G
+    ./main.sh -l left.fq -r right.fq -g genome.fasta -c coord.gtf --cpu 8 --max-memory 10G
   
   Required:
     -l|--left <left_seq>:         The left sequence
     -r|--right <right_seq>:       The right sequence
     -g|--genome <genome_seq>:     The reference genome sequence
-
+    -c|--coord <ref_coord>:       The reference transcript coordinate file in GTF format 
   Optional:
     -h|--help:                    Show the help information for this pipeline
     -v|--version:                 Show the version information for this pipeline
