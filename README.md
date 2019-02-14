@@ -20,7 +20,7 @@ A pipeline that finds fusion genes base on *De novo transcriptome assembly* with
 * RMBlast v2.60+ or higher
 * ActivePerl v5.8.0 or higher (can be obtained [here](https://www.activestate.com/products/activeperl/))
 * Perl Bioperl module v1.007 or higher
-* R-SAP v1.1 or higher
+* [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
 * GMAP v2019-01-24 or higher
 * GFusion v1.0
 
