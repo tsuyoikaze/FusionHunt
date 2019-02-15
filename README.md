@@ -15,13 +15,13 @@ A pipeline that finds fusion genes base on *De novo transcriptome assembly* with
 * Jellyfish v2.2.6 or higher
 * Salmon v0.9.1
 * GCC 8.2.0 or higher
-* Tandem Repeat Finder v4.09 or higher
-* RepeatMasker v1.332 or higher
+* [Tandem Repeat Finder](https://tandem.bu.edu/trf/trf.html) v4.09 or higher
+* [RepeatMasker](http://www.repeatmasker.org/) v1.332 or higher
 * RMBlast v2.60+ or higher
 * ActivePerl v5.8.0 or higher (can be obtained [here](https://www.activestate.com/products/activeperl/))
 * Perl Bioperl module v1.007 or higher
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
-* GMAP v2019-01-24 or higher
+* [GMAP](http://research-pub.gene.com/gmap/) v2019-01-24 or higher
 * GFusion v1.0
 
 ## Configuration
