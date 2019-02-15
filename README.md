@@ -20,7 +20,7 @@ This is a pipeline that detects possible fusion genes based on *De novo transcri
 * [Tandem Repeat Finder](https://tandem.bu.edu/trf/trf.html) v4.09 or higher
 * [RepeatMasker](http://www.repeatmasker.org/) v1.332 or higher
 * [RMBlast](http://www.repeatmasker.org/RMBlast.html) v2.60+ or higher
-* [ActivePerl]((https://www.activestate.com/products/activeperl/) v5.8.0 or higher
+* [ActivePerl](https://www.activestate.com/products/activeperl/) v5.8.0 or higher
 * [Perl Bioperl](https://bioperl.org/) module v1.007 or higher
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
 * [GMAP](http://research-pub.gene.com/gmap/) v2019-01-24 or higher
