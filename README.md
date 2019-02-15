@@ -2,27 +2,29 @@
 
 ## Description
 
-A pipeline that finds fusion genes base on *De novo transcriptome assembly* with benchmark functionality to compare results with existing software: [GFusion](https://github.com/xiaofengsong/GFusion) for refined and efficient fusion gene detection. 
+This is a pipeline that detects possible fusion genes based on *De novo transcriptome assembly* from human RNA-seq data with benchmark functionality to compare results with existing software [GFusion](https://github.com/xiaofengsong/GFusion) for refined and efficient fusion gene detection. The pipeline runs by first assembling the reads using *de novo transcriptome assembly* using Trinity, then aligning to the genome using GMAP, removing tandem repeats and interspersed repeats using TandemRepeatFinder and RepeatMasker, detecting possible chimeric transcripts using R-SAP, and filtering out for more likely fusion genes by aligning back to the original reads using Bowtie. Then, the pipeline will compare the results directly to results from GFusion, a pipeline that uses reference-based assembly to detect fusion genes. 
+
+![alt text](https://lh4.googleusercontent.com/ckU7j5mTGj23oHneEjtWRptCJLQp2XB5vaulDsNw092rwhByeMY0ltSqxsGebMqyWR61WvblqWMnm-wsHOUTIfzv_1j5ulzMBPe6yLlH=s1600)
 
 ## Prerequisites
 
 * Linux environment with bash
-* Trinity v2.8.4 or higher with trimmomatic embedded
-* Tophat v2.1.1 or higher
-* Bowtie v1.1.2
-* Bowtie2 v2.2.7
-* Samtools v1.3.1
-* Jellyfish v2.2.6 or higher
-* Salmon v0.9.1
-* GCC 8.2.0 or higher
+* [Trinity](https://github.com/trinityrnaseq/trinityrnaseq/wiki) v2.8.4 or higher with trimmomatic embedded
+* [Tophat](https://ccb.jhu.edu/software/tophat/index.shtml) v2.1.1 or higher
+* [Bowtie](http://bowtie-bio.sourceforge.net/index.shtml) v1.1.2
+* [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) v2.2.7
+* [Samtools](http://samtools.sourceforge.net/) v1.3.1
+* [Jellyfish](https://www.cbcb.umd.edu/software/jellyfish/) v2.2.6 or higher
+* [Salmon](https://combine-lab.github.io/salmon/) v0.9.1
+* [GCC 8.2.0](https://gcc.gnu.org/) or higher
 * [Tandem Repeat Finder](https://tandem.bu.edu/trf/trf.html) v4.09 or higher
 * [RepeatMasker](http://www.repeatmasker.org/) v1.332 or higher
-* RMBlast v2.60+ or higher
-* ActivePerl v5.8.0 or higher (can be obtained [here](https://www.activestate.com/products/activeperl/))
-* Perl Bioperl module v1.007 or higher
+* [RMBlast](http://www.repeatmasker.org/RMBlast.html) v2.60+ or higher
+* [ActivePerl]((https://www.activestate.com/products/activeperl/) v5.8.0 or higher
+* [Perl Bioperl](https://bioperl.org/) module v1.007 or higher
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
 * [GMAP](http://research-pub.gene.com/gmap/) v2019-01-24 or higher
-* GFusion v1.0
+* [GFusion](https://github.com/xiaofengsong/GFusion) v1.0
 
 ## Configuration
 
@@ -70,6 +72,10 @@ As this is a pipeline written as pure shell script, there is no need to configur
                                   is "ILLUMINACLIP:$TRIMMOMATIC_DIR/
                                   adapters/TruSeq3-PE.fa:2:30:12\")
 ```
+Genome downloads:
+
+*Human Genome (hg38/GRCh38) from UCSC in fasta/fa format can be downloaded [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz) for the -g flag
+*Human Genome (hg38.GRch38) transcript file in gtf format can be downloaded [here](https://genome.ucsc.edu/cgi-bin/hgTables) for the -c flag
 
 ## Known bugs and issues
 
