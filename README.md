@@ -74,8 +74,8 @@ As this is a pipeline written as pure shell script, there is no need to configur
 ```
 Genome downloads:
 
-*Human Genome (hg38/GRCh38) from UCSC in fasta/fa format can be downloaded [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz) for the -g flag
-*Human Genome (hg38.GRch38) transcript file in gtf format can be downloaded [here](https://genome.ucsc.edu/cgi-bin/hgTables) for the -c flag
+* Human Genome (hg38/GRCh38) from UCSC in fasta/fa format can be downloaded [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz) for the -g flag
+* Human Genome (hg38.GRch38) transcript file in gtf format can be downloaded [here](https://genome.ucsc.edu/cgi-bin/hgTables) for the -c flag
 
 ## Known bugs and issues
 
