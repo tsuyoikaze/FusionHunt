@@ -8,6 +8,8 @@ fi
 FLAG=false
 FILENAME=$2
 EMPTY_STR=""
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. $DIR/config.ini
 
 if [ ${FILENAME: -3} == ".gz" ]; then
   echo "GZIP file detected; unzipping..."
@@ -16,7 +18,7 @@ if [ ${FILENAME: -3} == ".gz" ]; then
   FILENAME="${2/.gz/$EMPTY_STR}"
 fi
 
-R-SAP --in1 $1 --in2 $FILENAME --outDir "$3/rsap_files" --rf GTF --tNum "$4"
+$RSAP_PATH --in1 $1 --in2 $FILENAME --outDir "$3/rsap_files" --rf GTF --tNum "$4"
 
 if [ $FLAG == true ]; then
   echo "Re-zipping GZIP file..."
