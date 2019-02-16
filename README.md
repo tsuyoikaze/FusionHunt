@@ -30,32 +30,32 @@ The pipeline runs by first assembling the reads using *de novo transcriptome ass
 
 ## Configuration
 
-As this is a pipeline written as pure shell script, there is no need to configurate the software itself. However, please make sure that the following command works:
+Although some software being used in this pipeline are by default installed and added to `$PATH`, some requires manual specification of path information. 
+
+Please make sure that the following is true
 
 * Trinity is accessible via `Trinity` command
 * Tophat is accessible via `tophat` command
 * Bowtie is accessible via `bowtie` command
 * Samtools is accessible via `samtools` command
-* RepeatMasker is accessible via `RepeatMasker` command and is configurated correctly to link with Tandem Repeat Finder and RMBlast
 * ActivePerl with BioPerl module installed is accessible via `perl` command. (You may need to add ActivePerl to your `PATH` in order to do that)
-* R-SAP is accessible via `R-SAP` command
-* GMAP is accessible via `gmap` command
-* GFusion is accessible via `GFusion` command. (Since the program itself is a perl script, you may need to add `alias GFusion="perl /path/to/GFusion.pl"`)
 * Trimmomatic installation directory is accessible via the `$TRIMMOMATIC_DIR` environment variable
+
+*Then, please fill the path of the remaining software in `config.ini` file for the pipeline to work correctly.*
 
 ## Usage
 
-`Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]`
+`Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_dir> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]`
 
 ```  
   
   Example:
-    ./main.sh -l left.fq -r right.fq -g genome.fasta -c coord.gtf --cpu 8 --max-memory 10G
+    ./main.sh -l left.fq -r right.fq -g genome/ -c coord.gtf --cpu 8 --max-memory 10G
   
   Required:
     -l|--left <left_seq>:         The left sequence
     -r|--right <right_seq>:       The right sequence
-    -g|--genome <genome_seq>:     The reference genome sequence
+    -g|--genome <genome_dir>:     The reference genome sequence directory
     -c|--coord <ref_coord>:       The reference transcript coordinate file in 
                                   GTF format 
 
