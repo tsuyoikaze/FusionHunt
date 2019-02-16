@@ -74,6 +74,11 @@ Please make sure that the following is true
                                   is "ILLUMINACLIP:$TRIMMOMATIC_DIR/
                                   adapters/TruSeq3-PE.fa:2:30:12")
 ```
+## FASTQ File formatting
+
+Please use a file format that is supported by Trinity. If you are downloading data from SRA, make sure to use this command:
+`fastq-dump --defline-seq '@$sn[_$rn]/$ri' --split-files <accession_ID>`
+
 ## Genome downloads:
 
 * Human Genome (hg38/GRCh38) from UCSC in fasta/fa format can be downloaded [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz) for the -g flag
