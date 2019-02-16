@@ -1,12 +1,15 @@
 #!/bin/bash
 echo "Running: mkdir $3/rsap_files"
-mkdir "$3/rsap_files"
+
+if [ ! -d "$3/rsap_files" ]; then
+  mkdir "$3/rsap_files"
+fi
 
 FLAG=false
 FILENAME=$2
 EMPTY_STR=""
 
-if [ ${file: -3} == ".gz" ]; then
+if [ ${FILENAME: -3} == ".gz" ]; then
   echo "GZIP file detected; unzipping..."
   gunzip "$2"
   FLAG=true

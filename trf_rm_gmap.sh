@@ -14,12 +14,15 @@
 # ----------------------------------------------------------
 GENOME_FILE=$1
 FASTA_FILE=$2
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. $DIR/config.ini
+
 printf "\n\nUsing genome file: $GENOME_FILE, fasta file: $FASTA_FILE\n\n"
 printf "\n\nLet's run the tests --------------------------------------\n\n"
 
 # Tandem Repeat Finder
 printf "\n\n----------------Tandem Repeat Finder starts---------------\n\n"
-trf $FASTA_FILE 2 7 7 80 10 50 500 -f -d -m
+$TRF_PATH $FASTA_FILE 2 7 7 80 10 50 500 -f -d -m
 rm *.html
 rm *.dat
 printf "\n\nTandem Repeat Find for $FASTA_FILE Complete.\n\n"
@@ -29,7 +32,7 @@ printf "\n\n----------------Repeat Masker starts---------------\n\n"
 EXTENSION=".2.7.7.80.10.50.500.mask"
 FASTA_FILE=$(basename "$FASTA_FILE")
 FASTA_FILE="$FASTA_FILE$EXTENSION"
-RepeatMasker -pa "$4" -q -a $FASTA_FILE
+$REPEAT_MASKER_PATH -pa "$4" -q -a $FASTA_FILE
 rm -r *RM_*
 rm *.mask
 rm *.cat
@@ -43,7 +46,7 @@ printf "\n\nInterspersed Repeat Find (Repeat Masker) for $FASTA_FILE Complete.\n
 # GMAP
 printf "\n\n----------------GMAP starts---------------\n\n"
 FASTA_FILE="$FASTA_FILE.masked"
-GMAP_COMMAND="$SCRATCH/project/lib/gmap/bin/gmap -D $GENOME_FILE -f 1 $FASTA_FILE > $3/result.psl"
+GMAP_COMMAND="$GMAP_PATH -g $GENOME_FILE -f 1 $FASTA_FILE > $3/result.psl"
 echo "Running $GMAP_COMMAND"
 $GMAP_COMMAND
 rm *.masked

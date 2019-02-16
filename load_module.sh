@@ -7,13 +7,12 @@
 export PATH=/pylon5/mc5frap/siweixu/project/lib/ActivePerl-5.26/bin:$PATH
 export PERL5LIB=/pylon5/mc5frap/siweixu/project/lib/r-sap-v1.1
 
-# Create alias for softwares
-alias GFusion="perl /pylon5/mc5frap/siweixu/project/lib/GFusion/GFusion.pl"
-alias gmap="/pylon5/mc5frap/siweixu/project/lib/gmap/bin/gmap"
-alias RepeatMasker="/pylon5/mc5frap/siweixu/project/lib/RepeatMasker/RepeatMasker"
-alias rmblastn="/pylon5/mc5frap/siweixu/project/lib/rmblast/bin/rmblastn"
-alias "R-SAP"="/pylon5/mc5frap/siweixu/project/lib/r-sap-v1.1/R-SAP"
-alias trf="/pylon5/mc5frap/siweixu/project/lib/trf-v4.09/trf"
+# Get current directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# Restore software path from backup
+cp "$DIR/config.ini.psc" "$DIR/config.ini"
+
 
 # PSC built-in software
 module load trinity/2.8.4

@@ -21,6 +21,9 @@ GENOME="/dev/null"
 COORD="/dev/null"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+# Load software path from ini file
+. $DIR/config.ini
+
 # String literals
 VERSION_TEXT="Version: 1.0.0"
 HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]
@@ -105,7 +108,7 @@ $TRINITY_COMMAND
 
 # Step 2: Run GMAP and TRF/Repeat Masker
 echo "Step 2: Run GMAP and Tandem Repeat Finder with RepeatMasker"
-source "$DIR/trf_rm_gmap.sh" "$GENOME" "$DEF_OUTPUT_DIR/trinity/Trinity.fasta" "$DEF_OUTPUT_DIR/gmap" "$CPU"
+source "$DIR/trf_rm_gmap.sh" "$GENOME" "$DEF_OUTPUT_DIR/trinity/Trinity.fasta" "$DEF_OUTPUT_DIR/gmap" "$DEF_CPU"
 
 # Step 3: Run R-SAP and Bowtie
 echo "Step 3: Run R-SAP and Bowtie"
