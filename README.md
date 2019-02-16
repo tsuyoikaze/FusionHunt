@@ -57,7 +57,7 @@ Please make sure that the following is true
     -r|--right <right_seq>:       The right sequence
     -g|--genome <genome_dir>:     The reference genome sequence directory
     -c|--coord <ref_coord>:       The reference transcript coordinate file in 
-                                  GTF format 
+                                  GTF format or gzipped GTF file
 
   Optional:
     -h|--help:                    Show the help information for this pipeline
@@ -72,7 +72,7 @@ Please make sure that the following is true
     --trimmomatic-param <param>:  Adapters and specifications for trimmomatic
                                   to perform automatic quality trim (default
                                   is "ILLUMINACLIP:$TRIMMOMATIC_DIR/
-                                  adapters/TruSeq3-PE.fa:2:30:12\")
+                                  adapters/TruSeq3-PE.fa:2:30:12")
 ```
 ## Genome downloads:
 
