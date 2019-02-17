@@ -1,4 +1,5 @@
-# Bioinformatics Data Integration Practicum Project - Team 2
+# FusionHunt: A fusion gene detecction software
+Bioinformatics Data Integration Practicum Project - Team 2
 
 ## Description
 
