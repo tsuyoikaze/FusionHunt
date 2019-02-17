@@ -1,10 +1,11 @@
-# Bioinformatics Data Integration Practicum Project - Team 2
+# FusionHunt: A fusion gene detecction software
+Bioinformatics Data Integration Practicum Project - Team 2
 
 ## Description
 
-This is a pipeline that detects possible fusion genes based on *de novo transcriptome assembly* from human RNA-seq data with benchmark functionality to compare results with existing software [GFusion](https://github.com/xiaofengsong/GFusion) for refined and efficient fusion gene detection. 
+This is a pipeline that detects possible fusion genes based on *de novo* transcriptome assembly from human RNA-seq data with benchmark functionality to compare results with existing software [GFusion](https://github.com/xiaofengsong/GFusion) for refined and efficient fusion gene detection. 
 
-The pipeline runs by first assembling the reads using *de novo transcriptome assembly* using Trinity, then aligning to the genome using GMAP, removing tandem repeats and interspersed repeats using TandemRepeatFinder and RepeatMasker, detecting possible chimeric transcripts using R-SAP, and filtering out for more likely fusion genes by aligning back to the original reads using Bowtie. Then, the pipeline will compare the results directly to results from GFusion, a pipeline that uses reference-based assembly to detect fusion genes. 
+The pipeline runs by first assembling the reads using *de novo* transcriptome assembly using Trinity, then aligning to the genome using GMAP, removing tandem repeats and interspersed repeats using TandemRepeatFinder and RepeatMasker, detecting possible chimeric transcripts using R-SAP, and filtering out for more likely fusion genes by aligning back to the original reads using Bowtie. Then, the pipeline will compare the results directly to results from GFusion, a pipeline that uses reference-based assembly to detect fusion genes. 
 
 ![alt text](https://lh4.googleusercontent.com/ckU7j5mTGj23oHneEjtWRptCJLQp2XB5vaulDsNw092rwhByeMY0ltSqxsGebMqyWR61WvblqWMnm-wsHOUTIfzv_1j5ulzMBPe6yLlH=s1600)
 
