@@ -32,7 +32,7 @@ The pipeline runs by first assembling the reads by *de novo* transcriptome assem
 
 ## Configuration
 
-Although some software being used in this pipeline are by default installed and added to `$PATH`, some requires manual specification of path information. 
+Although some software being used in this pipeline are by default installed and added to `$PATH`, some require manual specification of path information. 
 
 Please make sure that the following is true
 
@@ -43,9 +43,12 @@ Please make sure that the following is true
 * ActivePerl with BioPerl module installed is accessible via `perl` command. (You may need to add ActivePerl to your `PATH` in order to do that)
 * Trimmomatic installation directory is accessible via the `$TRIMMOMATIC_DIR` environment variable
 
-*Then, please fill the path of the remaining software in `config.ini` file for the pipeline to work correctly.*
+*Then, please fill the `config.ini` file with the installation paths of the remaining software in order to get the pipeline working as intended.*
 
 ## Usage
+
+You should call `main.sh` with the following command line arguments:
+
 
 `Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_dir> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]`
 
@@ -87,6 +90,12 @@ Please use a file format that is supported by Trinity. If you are downloading da
 * Human Genome (hg38/GRch38) transcript file in gtf format can be downloaded [here](https://genome.ucsc.edu/cgi-bin/hgTables) for the -c flag
 
 ## Known bugs and issues
+
+Bugs from prerequisite software
+
+There is a bug in Trinity v2.2.8-v2.3.4.1 that put the entire program into an infinite loop. Please use Trinity v2.2.7
+
+Bugs within this pipeline
 
 There is currently no known bugs at this point. However, should there be any issues please submit it to the issues page. 
 
