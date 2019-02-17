@@ -91,11 +91,11 @@ Please use a file format that is supported by Trinity. If you are downloading da
 
 ## Known bugs and issues
 
-Bugs from prerequisite software
+* **Bugs from prerequisite software**:
 
 There is a bug in Trinity v2.2.8-v2.3.4.1 that put the entire program into an infinite loop. Please use Trinity v2.2.7
 
-Bugs within this pipeline
+* **Bugs within this pipeline**:
 
 There is currently no known bugs at this point. However, should there be any issues please submit it to the issues page. 
 
