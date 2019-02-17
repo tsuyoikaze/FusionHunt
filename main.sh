@@ -36,7 +36,7 @@ HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--gen
     -r|--right <right_seq>:       The right sequence
     -g|--genome <genome_seq>:     The reference genome sequence
     -c|--coord <ref_coord>:       The reference transcript coordinate file in 
-                                  GTF format 
+                                  GTF format or zipped GTF files 
 
   Optional:
     -h|--help:                    Show the help information for this pipeline
@@ -112,4 +112,4 @@ source "$DIR/trf_rm_gmap.sh" "$GENOME" "$DEF_OUTPUT_DIR/trinity/Trinity.fasta" "
 
 # Step 3: Run R-SAP and Bowtie
 echo "Step 3: Run R-SAP and Bowtie"
-source "$DIR/rsap.sh" "$DEF_OUTPUT_DIR/result.psl" "$COORD" "$DEF_OUTPUT_DIR" $CPU
+source "$DIR/rsap.sh" "$DEF_OUTPUT_DIR/result.psl" "$COORD" "$DEF_OUTPUT_DIR" $DEF_CPU

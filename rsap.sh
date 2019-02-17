@@ -18,12 +18,14 @@ if [ ${FILENAME: -3} == ".gz" ]; then
   FILENAME="${2/.gz/$EMPTY_STR}"
 fi
 
-$RSAP_PATH --in1 $1 --in2 $FILENAME --outDir "$3/rsap_files" --rf GTF --tNum "$4"
+$R_SAP_PATH --in1 $1 --in2 $FILENAME --outDir "$3/rsap_files" --rf GTF --tNum "$4"
 
 if [ $FLAG == true ]; then
   echo "Re-zipping GZIP file..."
+  echo $FILENAME
   gzip "$FILENAME"
-
+fi
 #1 Reference genome alignment file (sorted on RNA‐Seq IDs) of the RNA‐Seq reads in psl format.
 #Reference transcript annotation file (UCSC table browser, BED or GTF format). 
 #We are looking for rsap_files/ChimericTranscriptAnnotation.out
+
