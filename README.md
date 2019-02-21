@@ -8,7 +8,7 @@ This software, the FusionHunt, is a pipeline that detects possible fusion genes 
 
 The pipeline runs by first assembling the reads by *de novo* transcriptome assembly using Trinity, then aligning to the genome using GMAP, removing tandem repeats and interspersed repeats using Tandem Repeat Finder and RepeatMasker, detecting possible chimeric transcripts using R-SAP, and filtering out for more likely fusion genes by aligning back to the original reads using Bowtie. Then, the pipeline will compare its results directly to those from GFusion, a pipeline that uses reference-based assembly to detect fusion genes.
 
-![alt text](https://lh4.googleusercontent.com/ckU7j5mTGj23oHneEjtWRptCJLQp2XB5vaulDsNw092rwhByeMY0ltSqxsGebMqyWR61WvblqWMnm-wsHOUTIfzv_1j5ulzMBPe6yLlH=s1600)
+![alt text](https://lh3.googleusercontent.com/Fd-ST_wIAFr5cD1yJ0fuNZm2kH6ItmInlUaD45U-7sSKpjBRL3sV21JjY1ccBEZicnW9yzrE3eSQ0fmv8dhKa-EQavVBlnWihws-BFsi=s1600)
 
 ## Prerequisites
 
