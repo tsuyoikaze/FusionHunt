@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# For testing the program, run source trf_rm_gmap.sh genome.fasta test.fasta
-
-# Usage: 
-# First, load modules using the following command: (in your terminal)
-# source project/src/load_module.sh
-
-# Second, run this file in the format:
-# source YOUR_DIR_TO_THIS_FILE/trf_rm_gmap.sh YOUR_DIR_TO_GENOME/GENOME_FILE YOUR_DIR_TO_FASTA/FASTA_FILE
-
-# The result will be in result.psl, in the same directory of tf_rm_gmap.sh
-
-# ----------------------------------------------------------
-
 # File paths and current directory
 GENOME_FILE=$1
 FASTA_FILE=$2
