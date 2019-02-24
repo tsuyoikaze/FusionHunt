@@ -47,13 +47,13 @@ rm *.mask.cat.all
 # BLAT
 echo "\n\n----------------BLAT starts---------------\n\n"
 FASTA_FILE="$FASTA_FILE.masked"
-GMAP_COMMAND="$GMAP_PATH -D $GENOME_FILE -f 1 $FASTA_FILE > $3/result.psl"
-echo "Running $GMAP_COMMAND"
+BLAT_COMMAND="$GMAP_PATH $GENOME_FILE $FASTA_FILE $3/result.psl"
+echo "Running $BLAT_COMMAND"
 if [ ! -d $3 ]; then
   echo "Creating output folder..."
   mkdir $3
 fi
-$GMAP_PATH -g $GENOME_FILE -f 1 $FASTA_FILE > $3/result.psl
+$GMAP_PATH $GENOME_FILE $FASTA_FILE $3/result.psl
 
 # # GMAP
 # echo "\n\n----------------GMAP starts---------------\n\n"
@@ -65,4 +65,3 @@ $GMAP_PATH -g $GENOME_FILE -f 1 $FASTA_FILE > $3/result.psl
 #   mkdir $3
 # fi
 # $GMAP_PATH -g $GENOME_FILE -f 1 $FASTA_FILE > $3/result.psl
-
