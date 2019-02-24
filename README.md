@@ -25,7 +25,6 @@ The pipeline runs by first assembling the reads by *de novo* transcriptome assem
 * [ActivePerl](https://www.activestate.com/products/activeperl/) v5.8.0 or higher
 * [Perl Bioperl](https://bioperl.org/) module v1.007 or higher
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
-* [GMAP](http://research-pub.gene.com/gmap/) v2019-01-24 or higher
 * [BLAT](https://genome.ucsc.edu/FAQ/FAQblat.html#blat3)
 * [GFusion](https://github.com/xiaofengsong/GFusion) v1.0
 
