@@ -11,3 +11,4 @@ RMBLAST_PATH=/pylon5/mc5frap/siweixu/project/lib/rmblast/bin/rmblastn
 R_SAP_PATH=/pylon5/mc5frap/siweixu/project/lib/r-sap-v1.1/R-SAP
 TRF_PATH=/pylon5/mc5frap/siweixu/project/lib/trf-v4.09/trf
 GFUSION_PATH=/pylon5/mc5frap/siweixu/project/lib/GFusion/GFusion.pl
+BLAT_PATH=/pylon5/mc5frap/siweixu/project/lib/blat/blat/blat

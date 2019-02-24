@@ -106,10 +106,10 @@ echo "Step 1: Run Trinity with Trimmomatic"
 TRINITY_COMMAND="$DIR/trinity.sh $LEFT $RIGHT $DEF_OUTPUT_DIR $DEF_CPU $DEF_MEMORY $DEF_TRIMMOMATIC_PARAM"
 $TRINITY_COMMAND
 
-# Step 2: Run GMAP and TRF/Repeat Masker
+# Step 2: Run BLAT and TRF/Repeat Masker
 echo "Step 2: Run BLAT and Tandem Repeat Finder with RepeatMasker"
-source "$DIR/trf_rm_gmap.sh" "$GENOME" "$DEF_OUTPUT_DIR/trinity/Trinity.fasta" "$DEF_OUTPUT_DIR/gmap" "$DEF_CPU"
+source "$DIR/trf_rm_gmap.sh" "$GENOME" "$DEF_OUTPUT_DIR/trinity/Trinity.fasta" "$DEF_OUTPUT_DIR/blat" "$DEF_CPU"
 
 # Step 3: Run R-SAP and Bowtie
 echo "Step 3: Run R-SAP and Bowtie"
-source "$DIR/rsap.sh" "$DEF_OUTPUT_DIR/gmap/result.psl" "$COORD" "$DEF_OUTPUT_DIR" $DEF_CPU
+source "$DIR/rsap.sh" "$DEF_OUTPUT_DIR/blat/result.psl" "$COORD" "$DEF_OUTPUT_DIR" $DEF_CPU
