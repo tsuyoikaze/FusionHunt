@@ -6,9 +6,7 @@ Bioinformatics Data Integration Practicum Project - Team 2
 This software, the FusionHunt, is a pipeline that detects possible fusion genes based on *de novo* transcriptome assembly from human RNA-seq data with benchmark result and functionality as existing software [GFusion](https://github.com/xiaofengsong/GFusion) for clean and efficient fusion gene detection.
 
 
-The pipeline runs by first assembling the reads by *de novo* transcriptome assembly using Trinity, then aligning to the genome using GMAP, removing tandem repeats and interspersed repeats using Tandem Repeat Finder and RepeatMasker, detecting possible chimeric transcripts using R-SAP, and filtering out for more likely fusion genes by aligning back to the original reads using Bowtie. Then, the pipeline will compare its results directly to those from GFusion, a pipeline that uses reference-based assembly to detect fusion genes.
-
-![alt text](https://lh3.googleusercontent.com/Fd-ST_wIAFr5cD1yJ0fuNZm2kH6ItmInlUaD45U-7sSKpjBRL3sV21JjY1ccBEZicnW9yzrE3eSQ0fmv8dhKa-EQavVBlnWihws-BFsi=s1600)
+The pipeline runs by first assembling the reads by *de novo* transcriptome assembly using Trinity, removing tandem repeats and interspersed repeats using Tandem Repeat Finder and RepeatMasker, then aligning to the genome using BLAT, detecting possible chimeric transcripts using R-SAP, and filtering out for more likely fusion genes by aligning back to the original reads using Bowtie. Then, the pipeline will compare its results directly to those from GFusion, a pipeline that uses reference-based assembly to detect fusion genes.
 
 ## Prerequisites
 
@@ -28,6 +26,7 @@ The pipeline runs by first assembling the reads by *de novo* transcriptome assem
 * [Perl Bioperl](https://bioperl.org/) module v1.007 or higher
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
 * [GMAP](http://research-pub.gene.com/gmap/) v2019-01-24 or higher
+* [BLAT](https://genome.ucsc.edu/FAQ/FAQblat.html#blat3)
 * [GFusion](https://github.com/xiaofengsong/GFusion) v1.0
 
 ## Configuration
