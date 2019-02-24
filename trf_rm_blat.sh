@@ -22,7 +22,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 printf "/n/nUsing genome file: $GENOME_FILE, fasta file: $FASTA_FILE/n/n"
 
 # Tandem Repeat Finder
-echo "/n/n----------------Tandem Repeat Finder starts---------------/n/n"
+printf "/n/n----------------Tandem Repeat Finder starts---------------/n/n"
 
 TRF_CMD="$TRF_PATH $FASTA_FILE 2 7 7 80 10 50 500 -f -d -m"
 printf "Running $TRF_CMD"
