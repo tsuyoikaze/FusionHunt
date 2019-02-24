@@ -77,6 +77,9 @@ You should call `main.sh` with the following command line arguments:
                                   is "ILLUMINACLIP:$TRIMMOMATIC_DIR/
                                   adapters/TruSeq3-PE.fa:2:30:12")
 ```
+
+## Output
+The output will be in `rsap_files/ChimericTranscriptAnnotation.out`.
 ## FASTQ File formatting
 
 Please use a file format that is supported by Trinity. If you are downloading data from SRA, make sure to use this command:
