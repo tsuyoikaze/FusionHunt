@@ -79,7 +79,7 @@ You should call `main.sh` with the following command line arguments:
 ```
 
 ## Output
-The output will be in `rsap_files/ChimericTranscriptAnnotation.out`.
+The output will be in `<output_dir>/rsap_files/ChimericTranscriptAnnotation.out`.
 ## FASTQ File formatting
 
 Please use a file format that is supported by Trinity. If you are downloading data from SRA, make sure to use this command:
