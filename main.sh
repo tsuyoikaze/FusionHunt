@@ -108,7 +108,7 @@ $TRINITY_COMMAND
 
 # Step 2: Run BLAT and TRF/Repeat Masker
 echo "Step 2: Run BLAT and Tandem Repeat Finder with RepeatMasker"
-source "$DIR/trf_rm_gmap.sh" "$GENOME" "$DEF_OUTPUT_DIR/trinity/Trinity.fasta" "$DEF_OUTPUT_DIR/blat" "$DEF_CPU"
+source "$DIR/trf_rm_blat.sh" "$GENOME" "$DEF_OUTPUT_DIR/trinity/Trinity.fasta" "$DEF_OUTPUT_DIR/blat" "$DEF_CPU"
 
 # Step 3: Run R-SAP and Bowtie
 echo "Step 3: Run R-SAP and Bowtie"

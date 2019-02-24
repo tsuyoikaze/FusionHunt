@@ -25,7 +25,6 @@ The pipeline runs by first assembling the reads by *de novo* transcriptome assem
 * [ActivePerl](https://www.activestate.com/products/activeperl/) v5.8.0 or higher
 * [Perl Bioperl](https://bioperl.org/) module v1.007 or higher
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
-* [GMAP](http://research-pub.gene.com/gmap/) v2019-01-24 or higher
 * [BLAT](https://genome.ucsc.edu/FAQ/FAQblat.html#blat3)
 * [GFusion](https://github.com/xiaofengsong/GFusion) v1.0
 
@@ -78,6 +77,9 @@ You should call `main.sh` with the following command line arguments:
                                   is "ILLUMINACLIP:$TRIMMOMATIC_DIR/
                                   adapters/TruSeq3-PE.fa:2:30:12")
 ```
+
+## Output
+The output will be in `<output_dir>/rsap_files/ChimericTranscriptAnnotation.out`.
 ## FASTQ File formatting
 
 Please use a file format that is supported by Trinity. If you are downloading data from SRA, make sure to use this command:
