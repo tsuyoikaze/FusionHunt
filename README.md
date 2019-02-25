@@ -27,7 +27,7 @@ The pipeline runs by first assembling the reads by *de novo* transcriptome assem
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
 * [BLAT](https://genome.ucsc.edu/FAQ/FAQblat.html#blat3)
 * [GFusion](https://github.com/xiaofengsong/GFusion) v1.0 (optional)
-* RSEM v1.1.17 or higher (optional)
+* [RSEM](https://deweylab.github.io/RSEM/) v1.1.17 or higher (optional)
 
 ## Configuration
 
