@@ -148,6 +148,7 @@ echo "Total runtime: $SECONDS seconds."
 # Step 4 (optional): Run GFusion
 if [ $GFUSION_FLAG == true ]; then
   echo "GFusion enabled"
+  cat $LEFT | awk '{{print (NR%4 == 1) ? "+1_" ++i "/2": $0}}' > "$LEFT_trinity.fastq"
   GFUSION_COMMAND="perl $GFUSION_PATH -o $DEF_OUTPUT_DIR/GFusion -1 $LEFT -2 $RIGHT -p $DEF_CPU -i $GFUSION_BOWTIE_INDEX -g $COORD $GFUSION_OPT"
   echo "Running $GFUSION_COMMAND"
   $GFUSION_COMMAND
