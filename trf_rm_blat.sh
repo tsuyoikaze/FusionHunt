@@ -41,3 +41,11 @@ if [ ! -d $3 ]; then
   mkdir $3
 fi
 $BLAT_PATH $GENOME_FILE $FASTA_FILE $3/result.psl
+
+
+rm *.mask.align
+rm *.mask.cat.gz
+rm *.mask.masked
+rm -r *.RMoutput
+rm -r *.mask.tbl
+
