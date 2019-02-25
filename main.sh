@@ -30,7 +30,7 @@ RSEM_OPT=""
 
 # String literals
 VERSION_TEXT="Version: 1.0.0"
-HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>] [--GFusiion] [--GFusion-bowtie-index <bowtie_index_prefix>] [--GFusion-opt <gfusion_options>] [--rsem] [--rsem-opt <>rsem_options]
+HELP_TEXT="Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>] [--GFusiion] [--GFusion-bowtie-index <bowtie_index_prefix>] [--GFusion-opt <gfusion_options>] [--rsem] [--rsem-opt <rsem_options>]
   
   Example:
     ./main.sh -l left.fq -r right.fq -g genome.fasta -c coord.gtf --cpu 8 --max-memory 10G --GFusion --GFusion-bowtie-index data/index/hg31

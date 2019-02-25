@@ -1,0 +1,12 @@
+# Configuration file for the pipeline
+# Please fill out the path information for these software below
+# Please do not change the variable names
+# NOTICE: Path should be path to the program, but the installation folder
+REPEAT_MASKER_PATH=/path/toRepeatMasker
+RMBLAST_PATH=/path/to/rmblastn
+R_SAP_PATH=/path/to/R-SAP
+TRF_PATH=/path/to/trf
+BLAT_PATH=/path/to/blat
+
+# OPTIONAL: only need to have if gfusion will be running
+GFUSION_PATH=/path/to/GFusion.pl

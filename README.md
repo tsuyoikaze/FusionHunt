@@ -50,7 +50,7 @@ Please make sure that the following is true
 You should call `main.sh` with the following command line arguments:
 
 
-`Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>] [--GFusiion] [--GFusion-bowtie-index <bowtie_index_prefix>] [--GFusion-opt <gfusion_options>] [--rsem] [--rsem-opt <>rsem_options]
+`Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>] [--GFusiion] [--GFusion-bowtie-index <bowtie_index_prefix>] [--GFusion-opt <gfusion_options>] [--rsem] [--rsem-opt <rsem_options>]
 `
 
 
