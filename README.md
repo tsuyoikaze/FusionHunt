@@ -26,7 +26,8 @@ The pipeline runs by first assembling the reads by *de novo* transcriptome assem
 * [Perl Bioperl](https://bioperl.org/) module v1.007 or higher
 * [R-SAP](http://www.mcdonaldlab.biology.gatech.edu/r-sap.htm) v1.1 or higher
 * [BLAT](https://genome.ucsc.edu/FAQ/FAQblat.html#blat3)
-* [GFusion](https://github.com/xiaofengsong/GFusion) v1.0
+* [GFusion](https://github.com/xiaofengsong/GFusion) v1.0 (optional)
+* RSEM v1.1.17 or higher (optional)
 
 ## Configuration
 
@@ -38,6 +39,7 @@ Please make sure that the following is true
 * Tophat is accessible via `tophat` command
 * Bowtie is accessible via `bowtie` command
 * Samtools is accessible via `samtools` command
+* RSEM is accessible in command line directly (optional)
 * ActivePerl with BioPerl module installed is accessible via `perl` command. (You may need to add ActivePerl to your `PATH` in order to do that)
 * Trimmomatic installation directory is accessible via the `$TRIMMOMATIC_DIR` environment variable
 
@@ -48,19 +50,21 @@ Please make sure that the following is true
 You should call `main.sh` with the following command line arguments:
 
 
-`Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_dir> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>]`
+`Usage: ./main.sh -l|--left <left_seq> -r|--right <right_seq> -g|--genome <genome_seq> -c|--coord <ref_coord> [-h|--help] [-v|--version] [-o|--output-dir <output_dir>] [--cpu <number_of_cores>] [--max-memory <max_memory>] [--trimmomatic-param <param>] [--GFusiion] [--GFusion-bowtie-index <bowtie_index_prefix>] [--GFusion-opt <gfusion_options>] [--rsem] [--rsem-opt <>rsem_options]
+`
+
 
 ```  
-  
+
   Example:
-    ./main.sh -l left.fq -r right.fq -g genome/ -c coord.gtf --cpu 8 --max-memory 10G
-  
+    ./main.sh -l left.fq -r right.fq -g genome.fasta -c coord.gtf --cpu 8 --max-memory 10G --GFusion --GFusion-bowtie-index data/index/hg31
+
   Required:
     -l|--left <left_seq>:         The left sequence
     -r|--right <right_seq>:       The right sequence
-    -g|--genome <genome_dir>:     The reference genome sequence directory
-    -c|--coord <ref_coord>:       The reference transcript coordinate file in 
-                                  GTF format or gzipped GTF file
+    -g|--genome <genome_seq>:     The reference genome sequence
+    -c|--coord <ref_coord>:       The reference transcript coordinate file in
+                                  GTF format or zipped GTF files
 
   Optional:
     -h|--help:                    Show the help information for this pipeline
@@ -70,12 +74,27 @@ You should call `main.sh` with the following command line arguments:
                                   total number of cores minus 2)
     --max-memory <max_memory>:    The max number of memory to be used (default
                                   is half of the total memory)
-  
+    --GFusion:                    Perform genome alignment-based fusion gene
+                                  detection powered by GFusion (default is
+                                  disabled)
+    --rsem:                       Perform RSEM estimation of gene and isoform
+                                  expression (default is disabled)
+
   Subroutine-specific Optional Parameters:
     --trimmomatic-param <param>:  Adapters and specifications for trimmomatic
                                   to perform automatic quality trim (default
                                   is "ILLUMINACLIP:$TRIMMOMATIC_DIR/
                                   adapters/TruSeq3-PE.fa:2:30:12")
+    --GFusion-bowtie-index <idx>: The path and prefix of bowtie index file.
+                                  NOTICE: This is REQUIRED if GFusion is enabled.
+    --GFusion-opt <options>:      Optional arguments passed into GFusion.
+                                  'options' must be en entire string such
+                                  as "-r 0 -n 1"
+    --rsem-opt <options>:         Optional arguments passed into RSEM.
+                                  'options' must be en entire string such
+                                  as "-r 0 -n 1"
+
+
 ```
 
 ## Output
