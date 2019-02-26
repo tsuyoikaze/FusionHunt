@@ -113,7 +113,7 @@ Please use a file format that is supported by Trinity. If you are downloading da
 
 * **Bugs from prerequisite software**:
 
-There is a bug in Trinity v2.2.8-v2.3.4.1 that put the entire program into an infinite loop. Please use Trinity v2.2.7
+There is a bug in Trinity v2.2.8-v2.3.4.1 that puts the entire program into an infinite loop. Please use Trinity v2.2.7
 
 * **Bugs within this pipeline**:
 
