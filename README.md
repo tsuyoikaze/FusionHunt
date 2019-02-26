@@ -117,7 +117,7 @@ There is a bug in Trinity v2.2.8-v2.3.4.1 that puts the entire program into an i
 
 * **Bugs within this pipeline**:
 
-There is currently no known bugs at this point. However, should there be any issues please submit it to the issues page. 
+There are currently no known bugs at this point. However, should there be any issues please submit it to the issues page. 
 
 ## The group
 
